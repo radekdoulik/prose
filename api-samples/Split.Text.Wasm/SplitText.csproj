@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Configuration>Release</Configuration>
+    <TargetArchitecture>wasm</TargetArchitecture>
+    <TargetOS>Browser</TargetOS>
+    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <UseMonoRuntime>true</UseMonoRuntime>
+    <WasmMainJSPath>main.js</WasmMainJSPath>
+    <WasmDebugLevel>1</WasmDebugLevel>
+    <OutputType>Exe</OutputType>
+    <WasmAppDir>$(MSBuildProjectDirectory)\bin\$(Configuration)\AppBundle\</WasmAppDir>
+    <WasmEnableES6>false</WasmEnableES6>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <WasmBuildAppAfterThisTarget>PrepareForWasmBuild</WasmBuildAppAfterThisTarget>
+  </PropertyGroup>
+  <Target Name="PrepareForWasmBuild" AfterTargets="Publish">
+    <ItemGroup>
+      <WasmAssembliesToBundle Include="$(TargetDir)publish\*.dll" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <WasmExtraFilesToDeploy Include="index.html" />
+    <WasmExtraFilesToDeploy Include="main.js" />
+    <PackageReference Include="Microsoft.ProgramSynthesis" Version="8.4.0" />
+  </ItemGroup>
+</Project>
